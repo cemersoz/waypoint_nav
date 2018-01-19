@@ -128,6 +128,8 @@ Initial map dimensions and resolution:
 
 SlamGMapping::SlamGMapping():
   map_to_odom_(tf::Transform(tf::createQuaternionFromRPY( 0, 0, 0 ), tf::Point(0, 0, 0 ))),
+  //bu benden
+  base_to_odom_(tf::Transform(tf::createQuaternionFromRPY( 0, 0, 0 ), tf::Point(0, 0, 0))),
   laser_count_(0), private_nh_("~"), scan_filter_sub_(NULL), scan_filter_(NULL), transform_thread_(NULL)
 {
   seed_ = time(NULL);
@@ -136,6 +138,8 @@ SlamGMapping::SlamGMapping():
 
 SlamGMapping::SlamGMapping(ros::NodeHandle& nh, ros::NodeHandle& pnh):
   map_to_odom_(tf::Transform(tf::createQuaternionFromRPY( 0, 0, 0 ), tf::Point(0, 0, 0 ))),
+  //bu da
+  base_to_odom_(tf::Transform(tf::createQuaternionFromRPY( 0, 0, 0 ), tf::Point(0, 0, 0 ))),
   laser_count_(0),node_(nh), private_nh_(pnh), scan_filter_sub_(NULL), scan_filter_(NULL), transform_thread_(NULL)
 {
   seed_ = time(NULL);
@@ -144,6 +148,8 @@ SlamGMapping::SlamGMapping(ros::NodeHandle& nh, ros::NodeHandle& pnh):
 
 SlamGMapping::SlamGMapping(long unsigned int seed, long unsigned int max_duration_buffer):
   map_to_odom_(tf::Transform(tf::createQuaternionFromRPY( 0, 0, 0 ), tf::Point(0, 0, 0 ))),
+  //bu da
+  base_to_odom_(tf::Transform(tf::createQuaternionFromRPY( 0, 0, 0 ), tf::Point(0, 0, 0))),
   laser_count_(0), private_nh_("~"), scan_filter_sub_(NULL), scan_filter_(NULL), transform_thread_(NULL),
   seed_(seed), tf_(ros::Duration(max_duration_buffer))
 {
@@ -786,5 +792,6 @@ void SlamGMapping::publishTransform()
   map_to_odom_mutex_.lock();
   ros::Time tf_expiration = ros::Time::now() + ros::Duration(tf_delay_);
   tfB_->sendTransform( tf::StampedTransform (map_to_odom_, tf_expiration, map_frame_, odom_frame_));
+  tfB_ ->sendTransform( tf::StampedTransform (base_to_odom_, tf_expiration, odom_frame_, "base_link"));
   map_to_odom_mutex_.unlock();
 }

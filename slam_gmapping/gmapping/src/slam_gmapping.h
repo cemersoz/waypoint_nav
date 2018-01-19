@@ -79,6 +79,8 @@ class SlamGMapping
 
     ros::Duration map_update_interval_;
     tf::Transform map_to_odom_;
+    //bu da benden
+    tf::Transform base_to_odom_;
     boost::mutex map_to_odom_mutex_;
     boost::mutex map_mutex_;
 
