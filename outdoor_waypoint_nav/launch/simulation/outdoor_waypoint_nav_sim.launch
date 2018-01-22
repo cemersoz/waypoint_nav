@@ -16,7 +16,8 @@
 
   <!-- Launch robot_localization and navsat node-->
     <include file="$(find outdoor_waypoint_nav)/launch/include/localization_run_sim.launch"/>
-
+  <!-- Launch joint state publisher node -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
   <!-- Run rviz -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find outdoor_waypoint_nav)/rviz_config/model.rviz" />
 
